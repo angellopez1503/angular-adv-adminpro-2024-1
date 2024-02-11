@@ -11,6 +11,7 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
 import { ComponentsModule } from '../components/components.module';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ComponentsModule } from '../components/components.module';
     Grafica1Component,
     DashboardComponent,
     PagesComponent,
+    AccountSettingsComponent,
   ],
   imports: [CommonModule,SharedModule,RouterModule,FormsModule,ComponentsModule],
   exports: [
@@ -26,6 +28,7 @@ import { ComponentsModule } from '../components/components.module';
     Grafica1Component,
     DashboardComponent,
     PagesComponent,
+    AccountSettingsComponent
   ],
 })
 export class PagesModule {}
