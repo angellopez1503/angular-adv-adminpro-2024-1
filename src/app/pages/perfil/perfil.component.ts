@@ -67,7 +67,7 @@ export class PerfilComponent implements OnInit {
   }
   subirImagen() {
     this.fileUploadService
-      .actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid!)
+      .actualizarFoto(this.imagenSubir, 'usuarios', this.usuario._id!)
       .then(
         (res) => {
           console.log(res);
