@@ -6,6 +6,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FooterComponent } from './footer/footer.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     BreadcrumbsComponent,
