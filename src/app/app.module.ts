@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 
 import { AuthModule } from './auth/auth.module';
 import { NotPageFoundComponent } from './not-page-found/not-page-found.component';
+
+
 // import { RouterModule } from '@angular/router';
 
 
@@ -16,6 +18,8 @@ import { NotPageFoundComponent } from './not-page-found/not-page-found.component
   declarations: [
     AppComponent,
     NotPageFoundComponent,
+ 
+
 
 
   ],

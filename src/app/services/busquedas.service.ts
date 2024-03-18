@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map,take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../models/usuario.model';
+import { Hospital } from '../models/hospital.model';
+import { Medico } from '../models/medico.model';
 
-const base_url = environment.base_url
+const base_url = environment.base_url;
 
 @Injectable({
   providedIn: 'root',
@@ -24,30 +26,46 @@ export class BusquedasService {
     };
   }
 
-  private transformarUsuarios(resultados:any[]):Usuario[]{
-
+  private transformarUsuarios(resultados: any[]): Usuario[] {
     return resultados.map(
-      user=>new Usuario(user.nombre,user.email,'',user.role,user.google,user.img,user.uid)
-    )
+      (user) =>
+        new Usuario(
+          user.nombre,
+          user.email,
+          '',
+          user.role,
+          user.google,
+          user.img,
+          user._id
+        )
+    );
   }
 
-  buscar(tipo:'usuarios'|'medicos'|'hospitales',termino:string){
-    const url = `${base_url}/todo/coleccion/${tipo}/${termino}`
-    return this.http.get<any[]>(url,this.headers)
-    .pipe(
+  private transformarHospitales(resultados: any[]): Hospital[] {
+    return resultados;
+  }
+
+  private transformarMedicos(resultados: any): Medico[] {
+    return resultados;
+  }
+
+  buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string) {
+    const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;
+    return this.http.get<any[]>(url, this.headers).pipe(
       take(100),
-      map(
-        (res:any) => {
-           switch(tipo){
-            case 'usuarios':
-              return this.transformarUsuarios(res.resultados)
-              break
-            default:
-              return []
-           }
+      map((res: any) => {
+        switch (tipo) {
+          case 'usuarios':
+            return this.transformarUsuarios(res.resultados);
+            break;
+          case 'hospitales':
+            return this.transformarHospitales(res.resultados);
+            break;
+          case 'medicos':
+            return this.transformarMedicos(res.resultados);
+            break;
         }
-      )
-    )
+      })
+    );
   }
-
 }

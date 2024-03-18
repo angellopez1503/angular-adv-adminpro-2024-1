@@ -7,8 +7,9 @@
           class="form-control"
           placeholder="Buscar usuario"
           #txtTermino
-          (keydown.enter)="buscar(txtTermino.value.trim())"
+          (keyup)="buscar(txtTermino.value.trim())"
         />
+        <!-- (keydown.enter)="buscar(txtTermino.value.trim())" -->
       </div>
     </div>
   </div>

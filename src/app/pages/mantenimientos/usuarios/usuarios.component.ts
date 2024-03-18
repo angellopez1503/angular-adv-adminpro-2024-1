@@ -1,47 +1,42 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
-import { Usuario } from 'src/app/models/usuario.model';
+
 import { CargarUsuarios } from '../../../interfaces/cargar-usuarios.interface';
 import { BusquedasService } from '../../../services/busquedas.service';
 import Swal from 'sweetalert2';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { Subscription, delay } from 'rxjs';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
 })
-export class UsuariosComponent implements OnInit,OnDestroy {
+export class UsuariosComponent implements OnInit, OnDestroy {
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
   public usuariosTemp: Usuario[] = [];
   public desde: number = 0;
   public limit: number = 5;
   public cargando: boolean = false;
-  public imgSubs! :Subscription
+  public imgSubs!: Subscription;
 
   constructor(
     private usuarioService: UsuarioService,
     private busquedasService: BusquedasService,
-    private modalImagenService:ModalImagenService
+    private modalImagenService: ModalImagenService
   ) {}
-
 
   ngOnInit(): void {
     this.cargarUsuarios();
     this.imgSubs = this.modalImagenService.nuevaImagen
-    .pipe(
-      delay(200)
-    )
-    .subscribe(
-      res => this.cargarUsuarios()
-    )
+      .pipe(delay(230))
+      .subscribe((res) => this.cargarUsuarios());
   }
 
   ngOnDestroy(): void {
-
-    this.imgSubs.unsubscribe()
+    this.imgSubs.unsubscribe();
   }
 
   cargarUsuarios() {
@@ -79,17 +74,17 @@ export class UsuariosComponent implements OnInit,OnDestroy {
       return;
     }
 
-    this.busquedasService.buscar('usuarios', termino).subscribe((res) => {
-      this.usuarios = res;
+    this.busquedasService.buscar('usuarios', termino).subscribe(res => {
+      console.log(res);
+      this.usuarios = res as Usuario[];
       this.cargando = false;
     });
   }
 
   eliminarUsuario(usuario: Usuario) {
-
-    if(usuario._id === this.usuarioService.uid){
-      Swal.fire('Error','No puede borrarse a si mismo','error')
-      return
+    if (usuario._id === this.usuarioService.uid) {
+      Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
+      return;
     }
 
     Swal.fire({
@@ -106,25 +101,20 @@ export class UsuariosComponent implements OnInit,OnDestroy {
             `${usuario.nombre} fue eliminado correctamente`,
             'success'
           );
-          this.cargarUsuarios()
+          this.cargarUsuarios();
         });
       }
     });
   }
 
-  cambiarRole(usuario:Usuario){
+  cambiarRole(usuario: Usuario) {
     console.log(usuario);
-    this.usuarioService.guardarUsuario(usuario)
-    .subscribe(
-      res=> {
-        console.log(res);
-      }
-    )
+    this.usuarioService.guardarUsuario(usuario).subscribe((res) => {
+      console.log(res);
+    });
   }
 
-  abrirModal(usuario:Usuario){
-    console.log(usuario);
-    this.modalImagenService.abrirModal('usuarios',usuario._id,usuario.img)
+  abrirModal(usuario: Usuario) {
+    this.modalImagenService.abrirModal('usuarios', usuario._id, usuario.img);
   }
-
 }
